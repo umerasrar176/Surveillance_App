@@ -1,10 +1,10 @@
 
-import 'package:app_making/main.dart';
-import 'package:app_making/Authenticate/register.dart';
-import 'package:app_making/services/auth.dart';
+import 'package:surveillance_app/main.dart';
+import 'package:surveillance_app/Authenticate/register.dart';
+import 'package:surveillance_app/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:app_making/screens/dashboard.dart';
+import 'package:surveillance_app/screens/dashboard.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -58,6 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final data = jsonDecode(response.body);
     String auth_token = data['accessToken'];
     String ID= data['_id'].toString();
+    String name = data['name'];
     print("auth token"+auth_token);
     if (response.statusCode == 200) {
       setState(() {
@@ -66,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
           MaterialPageRoute(
               builder: (context) => const MyHomePage()),
         );
-        savePref(auth_token, ID);
+        savePref(auth_token, ID, name);
       });
       loginToast("Login Successful");
     } else if (response.statusCode == 400){
@@ -88,11 +89,12 @@ class _LoginScreenState extends State<LoginScreen> {
         textColor: Colors.white);
   }
 
-  savePref(String auth_token, String id) async {
+  savePref(String auth_token, String id, String name) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       preferences.setString("auth_token", auth_token);
       preferences.setString("id", id);
+      preferences.setString('name', name);
       preferences.commit();
     });
   }

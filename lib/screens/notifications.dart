@@ -1,5 +1,5 @@
-import 'package:app_making/screens/drawer.dart';
-import 'package:app_making/screens/settings.dart';
+import 'package:surveillance_app/screens/drawer.dart';
+import 'package:surveillance_app/screens/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';

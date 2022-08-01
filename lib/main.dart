@@ -1,18 +1,18 @@
 //import 'dart:html';
 
-import 'package:app_making/screens/live_preview.dart';
-import 'package:app_making/screens/settings.dart';
-import 'package:app_making/services/auth.dart';
-import 'package:app_making/wrapper.dart';
+import 'package:surveillance_app/screens/live_preview.dart';
+import 'package:surveillance_app/screens/settings.dart';
+import 'package:surveillance_app/services/auth.dart';
+import 'package:surveillance_app/wrapper.dart';
 import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:flutter/material.dart';
-import 'package:app_making/Authenticate/login_screen.dart';
-import 'package:app_making/screens/dashboard.dart';
-import 'package:app_making/screens/profile.dart';
-import 'package:app_making/screens/notifications.dart';
-import 'package:app_making/screens/modes.dart';
+import 'package:surveillance_app/Authenticate/login_screen.dart';
+import 'package:surveillance_app/screens/dashboard.dart';
+import 'package:surveillance_app/screens/profile.dart';
+import 'package:surveillance_app/screens/notifications.dart';
+import 'package:surveillance_app/screens/modes.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:app_making/screens/settings.dart';
+import 'package:surveillance_app/screens/settings.dart';
 import 'package:provider/provider.dart';
 import 'models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -68,6 +68,20 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePage extends State<MyHomePage> {
+
+
+  String myName = '';
+
+  nameGet() async {
+    print("making connection .....");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var name = prefs.getString('name');
+    print(name);
+    setState(() {
+      myName = name!;
+    });
+  }
+
   final List<Widget> pages = [
     const Notifications(),
     const Modes(),
@@ -122,6 +136,7 @@ class _MyHomePage extends State<MyHomePage> {
           context,
           MaterialPageRoute(builder: (context) => const LoginScreen()));
     }
+
       return Scaffold(
         appBar: AppBar(
           title: Text(pageName()! ,
@@ -168,22 +183,29 @@ class _MyHomePage extends State<MyHomePage> {
                         children: <Widget>[
                           const CircleAvatar(
                             backgroundImage: AssetImage('assets/images/pic.png'),
-                            radius: 20.0,
+                            radius: 30.0,
                           ),
                           const SizedBox(
                             height: 3.0,
                           ),
-                          const Text(
-                            "Umer Hayat",
-                            style: TextStyle(
-                              fontSize: 22.0,
+                          Text(
+                              myName,
+                            style: const TextStyle(
+                              fontSize: 30.0,
                               color: Colors.white,
                             ),
                           ),
                           const SizedBox(
                             height: 3.0,
                           ),
-                          Card(
+                          const Text(
+                            "Manager",
+                            style: TextStyle(
+                              fontSize: 22.0,
+                              color: Colors.white,
+                            ),
+                          ),
+                          /*Card(
                             margin: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 2.0),
                             clipBehavior: Clip.antiAlias,
                             color: Colors.white,
@@ -270,7 +292,7 @@ class _MyHomePage extends State<MyHomePage> {
                                 ],
                               ),
                             ),
-                          )
+                          )*/
                         ],
                       ),
                     ),

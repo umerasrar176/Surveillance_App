@@ -1,4 +1,4 @@
-import 'package:app_making/screens/paired_devices.dart';
+import 'package:surveillance_app/screens/paired_devices.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'add_device.dart';

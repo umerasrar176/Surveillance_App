@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.app_making">
+    package="com.example.surveillance_app">
    <application
        android:debuggable="true"
-        android:label="app_making"
-        android:icon="@mipmap/ic_launcher">
+        android:label="surveillance_app"
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

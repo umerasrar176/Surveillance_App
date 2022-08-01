@@ -1,17 +1,91 @@
+import 'dart:convert';
 
-import 'package:app_making/screens/drawer.dart';
-import 'package:app_making/screens/settings.dart';
+import 'package:surveillance_app/screens/drawer.dart';
+import 'package:surveillance_app/screens/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({Key? key}) : super(key: key);
+
+    const Dashboard( {Key? key} ) : super(key: key);
+
 
   @override
   _DashboardState createState() => _DashboardState();
 }
 
 class _DashboardState extends State<Dashboard> {
+
+  @override
+  void initState() {
+    super.initState();
+    total();
+    unpairedC();
+  }
+
+  //const [totalCamera, setTotalcamera] = useState('0');
+  late var totalCamera = '0';
+  late var unpaired = '0';
+  late var paired = '0';
+
+
+    pairedC() async {
+    //print(int.parse(totalCamera));
+    //print(int.parse(unpaired));
+    setState(()  {
+       paired = (int.parse(totalCamera) - int.parse(unpaired)).toString();
+    });
+    print("paired"+paired);
+  }
+
+  total() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var id = prefs.getString('id');
+    var token = prefs.getString('auth_token');
+    print("making connection...");
+    String urlComplete= 'https://expressapiapp.azurewebsites.net/api/camera/ViewAllCameras/'+id!;
+    var url = Uri.parse(urlComplete);
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token'
+      },
+    );
+    print(response.statusCode);
+    print(response.body);
+    var data = jsonDecode(response.body);
+    print(data.length+1);
+    setState(() {
+      totalCamera  = (data.length +1).toString();
+    });
+  }
+
+  unpairedC() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var id = prefs.getString('id');
+    var token = prefs.getString('auth_token');
+    print("making connection...");
+    String urlComplete= 'https://expressapiapp.azurewebsites.net/api/camera/CountUnpairedCamera/'+id!;
+    var url = Uri.parse(urlComplete);
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token'
+      },
+    );
+    print(response.statusCode);
+    print(response.body);
+    setState(() {
+      unpaired = response.body;
+    });
+
+  }
+
+ //var a = int.parse(totalCamera);
+
+
   /*int _currentIndex = 0;
   final List _children = [];
 
@@ -29,6 +103,7 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    pairedC();
     return Scaffold(
         /*appBar: AppBar(
           title: const Text("Home" ,
@@ -157,9 +232,9 @@ class _DashboardState extends State<Dashboard> {
                           Text('Total Devices', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 27.0))
                         ],
                       ),
-                      const Material
+                       Material
                         (
-                        child: Text('17', style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w700, fontSize: 34.0)),
+                        child: Text(totalCamera, style: const TextStyle(color: Colors.blue, fontWeight: FontWeight.w700, fontSize: 34.0)),
                       )
                     ]
                 ),
@@ -178,15 +253,15 @@ class _DashboardState extends State<Dashboard> {
                         (
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const <Widget>
+                        children:  <Widget>
                         [
-                          Material
+                          const Material
                             (
                             child: Icon(Icons.connected_tv, color: Colors.blue, size: 45.0),
                           ),
                           /*const Text('Total Views', style: TextStyle(color: Colors.blueAccent)),*/
-                          Padding(padding: EdgeInsets.only(right: 40.0)),
-                          Text('7', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 37.0))
+                          const Padding(padding: EdgeInsets.only(right: 40.0)),
+                          Text(paired, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 37.0))
                         ],
                       ),
                       const Padding(padding: EdgeInsets.only(bottom: 16.0)),
@@ -209,15 +284,15 @@ class _DashboardState extends State<Dashboard> {
                         (
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const <Widget>
+                        children:  <Widget>
                         [
-                          Material
+                          const Material
                             (
                             child: Icon(Icons.not_interested_outlined, color: Colors.blue, size: 45.0),
                           ),
                           /*const Text('Total Views', style: TextStyle(color: Colors.blueAccent)),*/
-                          Padding(padding: EdgeInsets.only(right: 40.0)),
-                          Text('10', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 37.0))
+                          const Padding(padding: EdgeInsets.only(right: 40.0)),
+                          Text(unpaired,  style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 37.0))
                         ],
                       ),
                       const Padding(padding: EdgeInsets.only(bottom: 16.0)),

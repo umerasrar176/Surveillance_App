@@ -1,7 +1,52 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
-class ProfileApp extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+
+class ProfileApp extends StatefulWidget {
   const ProfileApp({Key? key}) : super(key: key);
+
+  @override
+  _ProfileAppState createState() => _ProfileAppState();
+  }
+
+class _ProfileAppState extends State<ProfileApp> {
+  @override
+  void initState() {
+    super.initState();
+    user();
+  }
+
+  var name = '';
+  var email = '';
+  var companyName = '';
+
+
+  user() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var id = prefs.getString('id');
+    var token = prefs.getString('auth_token');
+    print("making connection...");
+    String urlComplete= 'https://expressapiapp.azurewebsites.net/api/user/GetUser/'+id!;
+    var url = Uri.parse(urlComplete);
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token'
+      },
+    );
+    print(response.statusCode);
+    print(response.body);
+    var data = jsonDecode(response.body);
+
+    setState(() {
+      name = data['name'];
+      email = data['email'];
+      companyName = data['companyName'];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -208,7 +253,7 @@ class ProfileApp extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Container(height: 35),
-            Text("Umer Hayat", style: TextStyle(color: Colors.grey[900], fontWeight: FontWeight.bold
+            Text(name, style: TextStyle(color: Colors.grey[900], fontWeight: FontWeight.bold
             )),
             Container(height: 5),
             Text("Manager", textAlign : TextAlign.center, style: TextStyle(
@@ -287,8 +332,8 @@ class ProfileApp extends StatelessWidget {
             Divider(height: 50),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 30),
-              child: Text('My name is Umer and I am  a freelance mobile app developper.'
-                  'if you need any mobile app for your company then contact me for more informations', textAlign : TextAlign.center, style: TextStyle(
+              child: Text('My name is $name and I am  a manager of company $companyName.'
+                  'if you need any service for your company then contact me for more information', textAlign : TextAlign.center, style: TextStyle(
                   color: Colors.grey[900]
               )),
             ),
@@ -317,7 +362,7 @@ class ProfileApp extends StatelessWidget {
                           color: Colors.blueAccent, fontWeight: FontWeight.bold
                       )),
                       Container(height: 5),
-                      Text("juliana.c@mail.com", style: TextStyle(color: Colors.grey[500]))
+                      Text(email, style: TextStyle(color: Colors.grey[500]))
                     ],
                   ),
                 ),
@@ -333,11 +378,11 @@ class ProfileApp extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      const Text("Phone", style: TextStyle(
+                      const Text("Company Name", style: TextStyle(
                           color: Colors.blueAccent, fontWeight: FontWeight.bold
                       )),
                       Container(height: 5),
-                      Text("(022)77732387", style: TextStyle(color: Colors.grey[500]))
+                      Text(companyName, style: TextStyle(color: Colors.grey[500]))
                     ],
                   ),
                 ),

@@ -1,4 +1,4 @@
-package com.example.app_making
+package com.example.surveillance_app
 
 import io.flutter.embedding.android.FlutterActivity
 

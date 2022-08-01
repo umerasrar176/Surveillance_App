@@ -1,5 +1,5 @@
-import 'package:app_making/Authenticate/login_screen.dart';
-import 'package:app_making/services/auth.dart';
+import 'package:surveillance_app/Authenticate/login_screen.dart';
+import 'package:surveillance_app/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:http/http.dart' as http;

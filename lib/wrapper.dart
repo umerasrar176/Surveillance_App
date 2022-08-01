@@ -1,4 +1,4 @@
-import 'package:app_making/Authenticate/login_screen.dart';
+import 'package:surveillance_app/Authenticate/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

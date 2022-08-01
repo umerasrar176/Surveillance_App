@@ -1,6 +1,6 @@
-import 'package:app_making/screens/notifications.dart';
-import 'package:app_making/screens/settings.dart';
-import 'package:app_making/services/auth.dart';
+import 'package:surveillance_app/screens/notifications.dart';
+import 'package:surveillance_app/screens/settings.dart';
+import 'package:surveillance_app/services/auth.dart';
 import 'package:flutter/material.dart';
 
 class drawer extends StatefulWidget {
