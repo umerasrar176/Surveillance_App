@@ -2,7 +2,7 @@
     package="com.example.surveillance_app">
    <application
        android:debuggable="true"
-        android:label="surveillance_app"
+        android:label="Surveillance App"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"

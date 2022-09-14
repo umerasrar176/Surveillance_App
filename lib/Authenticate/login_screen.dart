@@ -21,9 +21,9 @@ class _LoginScreenState extends State<LoginScreen> {
   LoginStatus _loginStatus = LoginStatus.notSignIn;
   String email = '';
   String password = '';
-  //String error = '';
-  //final databaseRef = FirebaseDatabase.instance.reference();
-  //final AuthService _auth = AuthService();
+  // String error = '';
+  // final databaseRef = FirebaseDatabase.instance.reference();
+  // final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 
   /*void addData(String username, String password) {

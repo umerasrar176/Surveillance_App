@@ -219,6 +219,7 @@ Widget getSearchBarUI() {
           ),
         ),
         Container(
+          height: 60,
           decoration: BoxDecoration(
             color: Colors.blueAccent,
             borderRadius: const BorderRadius.all(
@@ -231,20 +232,22 @@ Widget getSearchBarUI() {
                   blurRadius: 8.0),
             ],
           ),
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              borderRadius: const BorderRadius.all(
-                Radius.circular(32.0),
-              ),
-              onTap: () {
-                //FocusScope.of(context).requestFocus(FocusNode());
-              },
-              child: const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Icon(Icons.search,
-                  size: 30,
-                  color: Colors.white,
+          child: Center(
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(32.0),
+                ),
+                onTap: () {
+                  //FocusScope.of(context).requestFocus(FocusNode());
+                },
+                child: const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Icon(Icons.search,
+                    size: 30,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),

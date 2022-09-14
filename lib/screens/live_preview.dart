@@ -17,7 +17,6 @@ class _LivepreviewState extends State<Livepreview> {
   final List _children = [];
 
   List<String> imageList = [
-    'https://cdn.pixabay.com/photo/2020/12/15/16/25/clock-5834193__340.jpg',
     'https://cdn.pixabay.com/photo/2020/09/18/19/31/laptop-5582775_960_720.jpg',
     'https://media.istockphoto.com/photos/woman-kayaking-in-fjord-in-norway-picture-id1059380230?b=1&k=6&m=1059380230&s=170667a&w=0&h=kA_A_XrhZJjw2bo5jIJ7089-VktFK0h0I4OWDqaac0c=',
     'https://cdn.pixabay.com/photo/2019/11/05/00/53/cellular-4602489_960_720.jpg',
@@ -28,6 +27,15 @@ class _LivepreviewState extends State<Livepreview> {
     'https://cdn.pixabay.com/photo/2020/12/13/16/22/snow-5828736_960_720.jpg',
     'https://cdn.pixabay.com/photo/2020/12/09/09/27/women-5816861_960_720.jpg',
   ];*/
+
+  List<String> videos = [
+    "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
+    "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
+    "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
+    "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
+    "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
+    "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
+  ];
   //late VideoPlayerController _videoController;
   late FlickManager flickManager;
 
@@ -60,16 +68,31 @@ class _LivepreviewState extends State<Livepreview> {
     ]
   };
 
+    getpath(){
+    String vid ='';
+    for(var video in videos){
+      setState(() {
+        vid=video;
+      });
+    }
+    return vid;
+  }
+
   @override
   void initState() {
     super.initState();
+    print("path "+getpath());
     flickManager = FlickManager(
       videoPlayerController: VideoPlayerController.network(
+          getpath()
         //'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
-        mockData["items"][0]["trailer_url"],
-        //'http://10.113.57.118:8080//video'
+        //mockData["items"][0]["trailer_url"],
+        //'https://192.168.10.6:8080//video'
+        // 'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4'
       ),
     );
+
+
     // **When the controllers change, call setState() to rebuild widget.**
     /*..addListener(() => setState(() {}))
       ..setLooping(true)
@@ -94,7 +117,7 @@ class _LivepreviewState extends State<Livepreview> {
               crossAxisCount: 2,
               crossAxisSpacing: 10,
               mainAxisSpacing: 12,
-              itemCount: 8,
+              itemCount: videos.length,
               itemBuilder: (context, index) {
                 return Container(
                   decoration: const BoxDecoration(
@@ -185,7 +208,7 @@ class _LivepreviewState extends State<Livepreview> {
           label: Text(_videoController.value.isPlaying ? 'Pause' : 'Play'),
         ),
       ],
-    );*/
+    );
       return VisibilityDetector(
         key: ObjectKey(flickManager),
         onVisibilityChanged: (visibility) {
@@ -207,7 +230,7 @@ class _LivepreviewState extends State<Livepreview> {
             ),
           ),
         ),
-      );
+      );*/
     }
     @override
     void dispose() {
