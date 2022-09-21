@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:surveillance_app/screens/contactUs.dart';
 
 
 class ProfileApp extends StatefulWidget {
@@ -289,8 +290,8 @@ class _ProfileAppState extends State<ProfileApp> {
                 ),*/
               ],
             ),
-            const Divider(height: 50),
-            Row(
+            //const Divider(height: 50),
+            /*Row(
               children: <Widget>[
                 Expanded(
                   flex: 1,
@@ -328,20 +329,20 @@ class _ProfileAppState extends State<ProfileApp> {
                   ),
                 ),
               ],
-            ),
-            Divider(height: 50),
+            ),*/
+            const Divider(height: 50),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 30),
+              padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Text('My name is $name and I am  a manager of company $companyName.'
                   'if you need any service for your company then contact me for more information', textAlign : TextAlign.center, style: TextStyle(
                   color: Colors.grey[900]
               )),
             ),
-            Divider(height: 50),
+            const Divider(height: 50),
             Row(
               children: <Widget>[
                 Container(width: 40),
-                Expanded(
+                /*Expanded(
                   flex: 1,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -352,7 +353,7 @@ class _ProfileAppState extends State<ProfileApp> {
                       Text("visual-photo.me", style: TextStyle(color: Colors.grey[500]))
                     ],
                   ),
-                ),
+                ),*/
                 Expanded(
                   flex: 1,
                   child: Column(
@@ -386,7 +387,7 @@ class _ProfileAppState extends State<ProfileApp> {
                     ],
                   ),
                 ),
-                Expanded(
+                /*Expanded(
                   flex: 1,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -397,7 +398,7 @@ class _ProfileAppState extends State<ProfileApp> {
                       Text("United State", style: TextStyle(color: Colors.grey[500]))
                     ],
                   ),
-                ),
+                ),*/
                 Container(width: 40)
               ],
             ),
@@ -405,7 +406,7 @@ class _ProfileAppState extends State<ProfileApp> {
             Row(
               children: <Widget>[
                 Container(width: 40),
-                Expanded(
+                /*Expanded(
                   flex: 1,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -416,7 +417,7 @@ class _ProfileAppState extends State<ProfileApp> {
                       Text("6525", style: TextStyle(color: Colors.grey[500]))
                     ],
                   ),
-                ),
+                ),*/
                 Expanded(
                   flex: 1,
                   child: Column(
@@ -425,7 +426,7 @@ class _ProfileAppState extends State<ProfileApp> {
                       const Text("Address", style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold
                       )),
                       Container(height: 5),
-                      Text("160th St, Fresh Meadows, NY, 11365", style: TextStyle(color: Colors.grey[500]))
+                      Text("Comsats University, Park Road Islamabad", style: TextStyle(color: Colors.grey[500]))
                     ],
                   ),
                 ),
@@ -434,7 +435,10 @@ class _ProfileAppState extends State<ProfileApp> {
             ),
             Container(height: 20),
             MaterialButton(
-              onPressed: () => showDialog<String>(
+              onPressed: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const contactUs())),
+
+              /*showDialog<String>(
               context: context,
               builder: (BuildContext context) => AlertDialog(
                 title: const Text('Contact Us'),
@@ -450,7 +454,7 @@ class _ProfileAppState extends State<ProfileApp> {
                   ),
                 ],
               ),
-            ),
+            ),*/
               color: Colors.blue,
               child: const Text(
                 'Contact Us',

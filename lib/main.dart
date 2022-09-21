@@ -2,6 +2,8 @@
 
 import 'dart:convert';
 
+import 'package:surveillance_app/screens/about.dart';
+import 'package:surveillance_app/screens/contactUs.dart';
 import 'package:surveillance_app/screens/live_preview.dart';
 import 'package:surveillance_app/screens/settings.dart';
 import 'package:surveillance_app/services/auth.dart';
@@ -18,6 +20,9 @@ import 'package:surveillance_app/screens/settings.dart';
 import 'package:provider/provider.dart';
 import 'models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:surveillance_app/services/local_notification_service.dart';
 
 //flutter run --no-sound-null-safety
 //flutter build apk --release --no-sound-null-safety
@@ -25,14 +30,27 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 var myname1 ='';
 
+Future<void> backgroundHandler(RemoteMessage message) async{
+  print(message.notification!.title);
+  print(message.notification!.body);
+
+  //LocalNotificationService.display(message);
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  //LocalNotificationService.initialize();
+  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
+  String? messaging = await FirebaseMessaging.instance.getToken();
   SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString('Firebase_token', messaging!);
+  print(prefs.get('Firebase_token'));
   var auth_token = prefs.getString('auth_token');
   var name = prefs.getString('name');
-  myname1 = name!;
+  //myname1 = name!;
   print(auth_token);
-  await Firebase.initializeApp();
+
   runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
       home: auth_token == null ? const LoginScreen() : const MyHomePage()));
@@ -83,6 +101,15 @@ class _MyHomePage extends State<MyHomePage> {
   //     myName = name!;
   //   });
   // }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    LocalNotificationService.initialize(context);
+  }
+
 
   final List<Widget> pages = [
     const Notifications(),
@@ -366,22 +393,28 @@ class _MyHomePage extends State<MyHomePage> {
                   'Label',
                 ),*/ /*
               ),*/
+
             ListTile(
-              leading: const Icon(Icons.help),
-              title: const Text('Help'),
+              leading: const Icon(Icons.contact_support_rounded),
+              title: const Text('Contact Us'),
               selected: _selectedDestination == 5,
               onTap: () {
                 selectDestination(5);
                 Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const contactUs()));
+
               },
             ),
             ListTile(
-              leading: const Icon(Icons.contact_page),
-              title: const Text('Contact Us'),
+              leading: const Icon(Icons.gpp_good),
+              title: const Text('About'),
               selected: _selectedDestination == 6,
               onTap: () {
                 selectDestination(6);
                 Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const About()));
               },
             ),
             ListTile(

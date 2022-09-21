@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:video_player/video_player.dart';
+//import 'package:videos_player/model/video.model.dart';
+//import 'package:videos_player/videos_player.dart';
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+import 'package:video_player/video_player.dart';
 
 class Livepreview extends StatefulWidget {
   const Livepreview({Key? key}) : super(key: key);
@@ -11,6 +14,7 @@ class Livepreview extends StatefulWidget {
   @override
   _LivepreviewState createState() => _LivepreviewState();
 }
+int count = 0;
 
 class _LivepreviewState extends State<Livepreview> {
   /*int _currentIndex = 0;
@@ -36,10 +40,37 @@ class _LivepreviewState extends State<Livepreview> {
     "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
     "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
   ];
+
+  final List<Map<String, String>> _list = [
+    {
+      'id': "2",
+      'name': "Elephant Dream",
+      'videoUrl':
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+      'thumbnailUrl':
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ElephantsDream.jpg",
+    },
+    {
+      'id': "3",
+      'name': "Big Buck Bunny",
+      'videoUrl':
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      'thumbnailUrl':
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg",
+    },
+    {
+      'id': "4",
+      'name': "For Bigger Blazes",
+      'videoUrl':
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+      'thumbnailUrl':
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerBlazes.jpg"
+    }
+  ];
   //late VideoPlayerController _videoController;
   late FlickManager flickManager;
 
-  Map<String, dynamic> mockData = {
+  /*Map<String, dynamic> mockData = {
     "items": [
       {
         "title": "Rio from Above",
@@ -66,7 +97,7 @@ class _LivepreviewState extends State<Livepreview> {
         "https://github.com/GeekyAnts/flick-video-player-demo-videos/blob/master/example/9th_may_compressed.mp4?raw=true",
       },
     ]
-  };
+  };*/
 
     getpath(){
     String vid ='';
@@ -83,15 +114,15 @@ class _LivepreviewState extends State<Livepreview> {
     super.initState();
     print("path "+getpath());
     flickManager = FlickManager(
-      videoPlayerController: VideoPlayerController.network(
-          getpath()
-        //'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
-        //mockData["items"][0]["trailer_url"],
-        //'https://192.168.10.6:8080//video'
-        // 'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4'
-      ),
-    );
-
+        videoPlayerController: VideoPlayerController.network(
+          getpath(),
+          //'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+          //mockData["items"][0]["trailer_url"],
+          //'https://192.168.10.6:8080//video'
+          // 'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4'
+        ),
+      );
+    }
 
     // **When the controllers change, call setState() to rebuild widget.**
     /*..addListener(() => setState(() {}))
@@ -104,7 +135,6 @@ class _LivepreviewState extends State<Livepreview> {
       ..addListener(() => setState(() {}))
       ..setLooping(true)
       ..initialize();*/
-  }
 
 
   @override
@@ -120,15 +150,34 @@ class _LivepreviewState extends State<Livepreview> {
               itemCount: videos.length,
               itemBuilder: (context, index) {
                 return Container(
-                  decoration: const BoxDecoration(
-                      color: Colors.transparent,
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(15))
-                  ),
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(
-                        Radius.circular(15)),
-                    child: _buildVideoPlayerUI()
+                    decoration: const BoxDecoration(
+                        color: Colors.transparent,
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(15))
+                    ),
+                    child: ClipRRect(
+                        borderRadius: const BorderRadius.all(
+                            Radius.circular(15)),
+                        child: VisibilityDetector(
+                          key: ObjectKey(videos[index]),
+                          onVisibilityChanged: (visibility) {
+                            if (visibility.visibleFraction == 0 && mounted) {
+                              flickManager.flickControlManager?.autoPause();
+                            } else if (visibility.visibleFraction == 1) {
+                              flickManager.flickControlManager?.autoResume();
+                            }
+                          },
+                          child: FlickVideoPlayer(
+                            flickManager: flickManager,
+                            flickVideoWithControls: const FlickVideoWithControls(
+                              //closedCaptionTextStyle: TextStyle(fontSize: 8),
+                              controls: FlickPortraitControls(),
+                            ),
+                            flickVideoWithControlsFullscreen: const FlickVideoWithControls(
+                              controls: FlickLandscapeControls(),
+                            ),
+                          ),
+                        )
                     )
                 );
               },
@@ -138,6 +187,26 @@ class _LivepreviewState extends State<Livepreview> {
         ),
       ),
     );
+
+    /*Scaffold(
+      body: ListView.builder(
+        itemCount: _list.length,
+        itemBuilder: (BuildContext ctx, int index) {
+          return VideosPlayer(
+            networkVideos: [
+              NetworkVideo(
+                  id: _list[index]['id'],
+                  name: _list[index]['name'],
+                  videoUrl: _list[index]['videoUrl'],
+                  thumbnailUrl: _list[index]['thumbnailUrl'])
+            ],
+          );
+        },
+      ),
+    );*/
+
+
+
 
     /*return ListView(
       padding: const EdgeInsets.all(4),
@@ -166,9 +235,9 @@ class _LivepreviewState extends State<Livepreview> {
       ],
     );*/
   }
-    Widget _buildVideoPlayerUI() {
+    /*Widget _buildVideoPlayerUI() {
       return VisibilityDetector(
-        key: ObjectKey(flickManager),
+        key: ObjectKey(videos[5]),
         onVisibilityChanged: (visibility) {
           if (visibility.visibleFraction == 0 && mounted) {
             flickManager.flickControlManager?.autoPause();
@@ -187,18 +256,18 @@ class _LivepreviewState extends State<Livepreview> {
           ),
         ),
       );
-      /*return Column(
+      *//*return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         AspectRatio(
           aspectRatio: _videoController.value.aspectRatio,
           child: VideoPlayer(_videoController),
-        ),*/
-      /*Text(
+        ),*//*
+      *//*Text(
           '${_videoController.value.position} / ${_videoController.value.duration}',
-        ),*/
+        ),*//*
       //VideoProgressIndicator(_videoController, allowScrubbing: true),
-      /*ElevatedButton.icon(
+      *//*ElevatedButton.icon(
           onPressed: () => _videoController.value.isPlaying
               ? _videoController.pause()
               : _videoController.play(),
@@ -230,12 +299,12 @@ class _LivepreviewState extends State<Livepreview> {
             ),
           ),
         ),
-      );*/
-    }
-    @override
+      );*//*
+    }*/
+    /*@override
     void dispose() {
       //_videoController.dispose();
       flickManager.dispose();
       super.dispose();
-    }
+    }*/
   }

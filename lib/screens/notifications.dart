@@ -3,6 +3,10 @@ import 'package:surveillance_app/screens/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:surveillance_app/services/local_notification_service.dart';
+
 
 class Notifications extends StatefulWidget {
   const Notifications({Key? key}) : super(key: key);
@@ -16,6 +20,58 @@ class _Notifications extends State<Notifications> {
   String notificationAlert = "alert";
 
   //FirebaseMessaging _firebaseMessaging = FirebaseMessaging();*/
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    //LocalNotificationService.initialize(context);
+
+    ///gives you the message on which user taps
+    ///and it opened the app from terminated state
+    FirebaseMessaging.instance.getInitialMessage().then((message) {
+      if (message != null) {
+        print(message.notification?.body);
+        print(message.notification?.title);
+
+        showDialog<String>(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+          title:  Text(message.notification!.title!),
+          content:  Text(message.notification!.body!),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'Cancel'),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'OK'),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+        );
+      }
+    });
+
+    ///forground work
+    FirebaseMessaging.onMessage.listen((message) {
+      if (message.notification != null) {
+        print(message.notification!.body);
+        print(message.notification!.title);
+      }
+
+      LocalNotificationService.display(message);
+    });
+
+    ///When the app is in background but opened and user taps
+    ///on the notification
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      print(message.notification!.title);
+      print(message.notification!.body);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

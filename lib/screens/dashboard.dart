@@ -133,6 +133,15 @@ class _DashboardState extends State<Dashboard> {
           crossAxisSpacing: 12.0,
           mainAxisSpacing: 12.0,
           padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 8.0),
+          staggeredTiles: const [
+            StaggeredTile.extent(2, 70.0),
+            StaggeredTile.extent(2, 80.0),
+            StaggeredTile.extent(1, 155.0),
+            StaggeredTile.extent(1, 155.0),
+            StaggeredTile.extent(2, 200.0),
+            StaggeredTile.extent(2, 200.0),
+            StaggeredTile.extent(2, 200.0),
+          ],
           children: <Widget>[
                 getSearchBarUI(),
                 /*Padding(
@@ -554,15 +563,6 @@ class _DashboardState extends State<Dashboard> {
                   )
               ),
             )
-          ],
-          staggeredTiles: const [
-            StaggeredTile.extent(2, 70.0),
-            StaggeredTile.extent(2, 80.0),
-            StaggeredTile.extent(1, 155.0),
-            StaggeredTile.extent(1, 155.0),
-            StaggeredTile.extent(2, 200.0),
-            StaggeredTile.extent(2, 200.0),
-            StaggeredTile.extent(2, 200.0),
           ],
         )
       /*appBar: AppBar(

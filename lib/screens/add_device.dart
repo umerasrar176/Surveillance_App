@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
+//import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -16,8 +16,8 @@ class AddDevice extends StatefulWidget {
 
 class _AddDeviceState extends State<AddDevice> {
 
-  Barcode? result;
-  QRViewController? controller;
+  //Barcode? result;
+  //QRViewController? controller;
   final iPHolder = TextEditingController();
   final nameHolder = TextEditingController();
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
@@ -203,7 +203,7 @@ class _AddDeviceState extends State<AddDevice> {
                   child: const Text("Scan QR Code"),
                   onPressed: (){
                     print("scanning button pressed");
-                    _buildQrView(context);
+                    //_buildQrView(context);
                   },
                 ),
               ),
@@ -214,7 +214,7 @@ class _AddDeviceState extends State<AddDevice> {
 
     }
 
-  Widget _buildQrView(BuildContext context) {
+  /*Widget _buildQrView(BuildContext context) {
     // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
     var scanArea = (MediaQuery.of(context).size.width < 400 ||
         MediaQuery.of(context).size.height < 400)
@@ -253,11 +253,11 @@ class _AddDeviceState extends State<AddDevice> {
         const SnackBar(content: Text('no Permission')),
       );
     }
-  }
+  }*/
 
-  @override
+  /*@override
   void dispose() {
     controller?.dispose();
     super.dispose();
-  }
+  }*/
 }

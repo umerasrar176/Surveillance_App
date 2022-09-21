@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "29403069251",
-    "project_id": "notificationapp-381cd",
-    "storage_bucket": "notificationapp-381cd.appspot.com"
+    "project_number": "758913531979",
+    "project_id": "reactfirebase-faed1",
+    "storage_bucket": "reactfirebase-faed1.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:29403069251:android:d1ad99e970285882fb4df6",
+        "mobilesdk_app_id": "1:758913531979:android:dd8d8e4904c08cb19ccdce",
         "android_client_info": {
           "package_name": "com.example.surveillance_app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "29403069251-o22m1nnmoq79sj9o9t02poim72pe7ueb.apps.googleusercontent.com",
+          "client_id": "758913531979-cg2shvq81ivi9i3ct0mk44gecloaddop.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDsOb3E-4OJrE6hqzkanCdzenBNB3fLN7Y"
+          "current_key": "AIzaSyAKqgunn7P_vZHoCV3eDcLvpr7kdpsrHbw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "29403069251-o22m1nnmoq79sj9o9t02poim72pe7ueb.apps.googleusercontent.com",
+              "client_id": "758913531979-cg2shvq81ivi9i3ct0mk44gecloaddop.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
