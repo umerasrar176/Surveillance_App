@@ -31,33 +31,7 @@ class Data {
     );
   }
 }
-  List<Data>? cameras;
-  Future<List<Data>> add() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  var id = prefs.getString('id');
-  var token = prefs.getString('auth_token');
-  print("making connection...");
-  String urlComplete= 'https://expressapiapp.azurewebsites.net/api/camera/ViewAllCameras/'+id!;
-  var url = Uri.parse(urlComplete);
-  final response = await http.get(
-    url,
-    headers: {
-      'Authorization': 'Bearer $token'
-    },
-  );
-  print(response.statusCode);
-  print(response.body);
-  var data = jsonDecode(response.body);
-  print(data.length);
-  if (data.length>0){
-    for(int i =0; i<data.length; i++){
-      if(data[i]!=null){
-        Map<String, dynamic> map = data[i];
-        cameras!.add(Data.fromJson(map));
-      }
-    }
-  }
-  return cameras!;
+
   //print(data.runtimeType);
   //var d1 = await data.map((data) async => Data.fromJson(data)).toList() as Future<List<Data>>;
   //print(d1.runtimeType);
@@ -91,15 +65,49 @@ class Data {
   else {
     addToast("Register fail");
   }*/
-}
 class _PairedDevicesState extends State<PairedDevices> {
 
-    Future<List<Data>>? mylist;
+   List mylist =[];
   @override
   void initState() {
     super.initState();
-     mylist= add();
+    add();
+    //print(add());
   }
+
+    //List cameras =[];
+    add() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var id = prefs.getString('id');
+      var token = prefs.getString('auth_token');
+      print("making connection...");
+      String urlComplete = 'https://expressapiapp.azurewebsites.net/api/camera/ViewAllCameras/' + id!;
+      var url = Uri.parse(urlComplete);
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token'
+        },
+      );
+      print(response.statusCode);
+      //print(response.body);
+      var data = jsonDecode(response.body);
+      //var data = Data.fromJson(response.body);
+      print(data);
+      print(data?.length);
+      setState(() {
+        mylist = data;
+      });
+     /* if (data.length > 0) {
+        for (int i = 0; i < data.length; i++) {
+          if (data[i] != null) {
+            Map<String, dynamic> map = data[i];
+            cameras?.add(Data.fromJson(map));
+          }
+        }
+      }
+      mylist= cameras ;*/
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -124,11 +132,29 @@ class _PairedDevicesState extends State<PairedDevices> {
             ),
           ],
         ),*/
-      body: FutureBuilder <List<Data>>(
-          future: mylist ,
-          builder: (context, AsyncSnapshot<List<Data>>snapshot) {
+      body: ListView.builder(
+          itemCount: mylist?.length,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+              title: Text(mylist[index]["name"]),
+              leading: const Icon(Icons.linked_camera),
+              trailing: PopupMenuButton<String>(
+                itemBuilder: (context) => [
+                  const PopupMenuItem(
+                    value: "Remove",
+                    child: Text("Remove"),
+                    //onTap: ,
+                  ),
+                ],
+              ),
+            );
+          }
+      )
+      /*FutureBuilder (
+          future: add() ,
+          builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
-              List<Data>? data = snapshot.data;
+              List<Data>? data = snapshot.data ;
                 ListView.builder(
                     itemCount: data?.length,
                     itemBuilder: (BuildContext context, int index) {
@@ -150,10 +176,12 @@ class _PairedDevicesState extends State<PairedDevices> {
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");
             }
+            print("Line153${mylist}");
             // By default show a loading spinner.
             return const CircularProgressIndicator();
           },
-        ),
+        ),*/
     );
+
     }
 }

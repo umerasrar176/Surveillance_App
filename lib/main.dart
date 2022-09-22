@@ -31,8 +31,8 @@ import 'package:surveillance_app/services/local_notification_service.dart';
 var myname1 ='';
 
 Future<void> backgroundHandler(RemoteMessage message) async{
-  print(message.notification!.title);
-  print(message.notification!.body);
+  print(message.notification?.title);
+  print(message.notification?.body);
 
   //LocalNotificationService.display(message);
 }

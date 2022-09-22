@@ -58,8 +58,8 @@ class _Notifications extends State<Notifications> {
     ///forground work
     FirebaseMessaging.onMessage.listen((message) {
       if (message.notification != null) {
-        print(message.notification!.body);
-        print(message.notification!.title);
+        print(message.notification?.body);
+        print(message.notification?.title);
       }
 
       LocalNotificationService.display(message);
@@ -68,8 +68,8 @@ class _Notifications extends State<Notifications> {
     ///When the app is in background but opened and user taps
     ///on the notification
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      print(message.notification!.title);
-      print(message.notification!.body);
+      print(message.notification?.title);
+      print(message.notification?.body);
     });
   }
   @override
