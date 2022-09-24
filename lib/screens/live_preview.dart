@@ -84,6 +84,15 @@ class _LivepreviewState extends State<Livepreview> {
       "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
       'thumbnailUrl':
       "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerBlazes.jpg"
+    },
+    {
+      'id': "7",
+      'name': "IP Camera",
+      'videoUrl':
+      //"rtsp://192.168.0.103:8080/h264_ulaw.sdp",
+      "https://192.168.0.103:8080/video",
+      'thumbnailUrl':
+      "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerBlazes.jpg"
     }
   ];
   //late VideoPlayerController _videoController;

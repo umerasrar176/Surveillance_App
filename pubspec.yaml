@@ -47,6 +47,8 @@ dependencies:
   flutter_local_notifications: ^10.0.0
   mb_contact_form: ^0.0.1
   better_player: ^0.0.83
+  qrscan: ^0.3.3
+  permission_handler: ^10.0.1
   #videos_player: ^0.1.2
 
 

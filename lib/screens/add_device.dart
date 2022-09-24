@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:qrscan/qrscan.dart' as scanner;
+import 'package:permission_handler/permission_handler.dart';
 
 
 class AddDevice extends StatefulWidget {
@@ -29,6 +31,31 @@ class _AddDeviceState extends State<AddDevice> {
     nameHolder.clear();
   }
   //final _formKey = GlobalKey<FormState>();
+
+  Future _scanQR() async {
+      var camerStatus = await Permission.camera.status;
+      if(camerStatus.isGranted){
+        String? cameraScanResult = await scanner.scan();
+        //String? cameraScanResult = await scanner.scanPhoto();
+        //print(cameraScanResult);
+        setState(() {
+          iPHolder.text = cameraScanResult!; //setting string result with cameraScanResult
+          //iPHolder.text ='192.168.0.103';
+          print(cameraId);
+
+        });
+      }
+      else{
+        var isGrant = await Permission.camera.request();
+        if(isGrant.isGranted){
+          String? cameraScanResult = await scanner.scan();
+          setState(() {
+            cameraId = cameraScanResult!; // setting string result with cameraScanResult
+          });
+        }
+      }
+  }
+
 
   //ADD Device IP API
   add() async {
@@ -202,7 +229,8 @@ class _AddDeviceState extends State<AddDevice> {
                   style: ElevatedButton.styleFrom(primary: Colors.blueAccent, elevation: 0),
                   child: const Text("Scan QR Code"),
                   onPressed: (){
-                    print("scanning button pressed");
+                    _scanQR();
+                    //print("scanning button pressed");
                     //_buildQrView(context);
                   },
                 ),
