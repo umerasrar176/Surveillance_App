@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:surveillance_app/screens/video_screen.dart';
 import 'package:transparent_image/transparent_image.dart';
-import 'package:video_player/video_player.dart';
+//import 'package:video_player/video_player.dart';
 //import 'package:videos_player/model/video.model.dart';
 //import 'package:videos_player/videos_player.dart';
-import 'package:flick_video_player/flick_video_player.dart';
+//import 'package:flick_video_player/flick_video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-import 'package:video_player/video_player.dart';
+//import 'package:video_player/video_player.dart';
+
 
 class Livepreview extends StatefulWidget {
   const Livepreview({Key? key}) : super(key: key);
@@ -14,6 +16,7 @@ class Livepreview extends StatefulWidget {
   @override
   _LivepreviewState createState() => _LivepreviewState();
 }
+
 int count = 0;
 
 class _LivepreviewState extends State<Livepreview> {
@@ -32,43 +35,59 @@ class _LivepreviewState extends State<Livepreview> {
     'https://cdn.pixabay.com/photo/2020/12/09/09/27/women-5816861_960_720.jpg',
   ];*/
 
-  List<String> videos = [
+  /*List<String> videos = [
     "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
     "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
     "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
     "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
     "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
     "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
-  ];
+  ];*/
 
   final List<Map<String, String>> _list = [
     {
       'id': "2",
       'name': "Elephant Dream",
       'videoUrl':
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+          "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
       'thumbnailUrl':
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ElephantsDream.jpg",
+          "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ElephantsDream.jpg",
     },
     {
       'id': "3",
       'name': "Big Buck Bunny",
       'videoUrl':
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+          "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
       'thumbnailUrl':
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg",
+          "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg",
     },
     {
       'id': "4",
       'name': "For Bigger Blazes",
       'videoUrl':
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+      'thumbnailUrl':
+          "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerBlazes.jpg"
+    },
+    {
+      'id': "5",
+      'name': "For Bigger Escape",
+      'videoUrl':
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+      'thumbnailUrl':
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerBlazes.jpg"
+    },
+    {
+      'id': "6",
+      'name': "For Bigger Fun",
+      'videoUrl':
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
       'thumbnailUrl':
       "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerBlazes.jpg"
     }
   ];
   //late VideoPlayerController _videoController;
-  late FlickManager flickManager;
+  //late FlickManager flickManager;
 
   /*Map<String, dynamic> mockData = {
     "items": [
@@ -99,49 +118,70 @@ class _LivepreviewState extends State<Livepreview> {
     ]
   };*/
 
-    getpath(){
-    String vid ='';
-    for(var video in videos){
+  /*getpath() {
+    String vid = '';
+    for (var video in videos) {
       setState(() {
-        vid=video;
+        vid = video;
       });
     }
     return vid;
-  }
+  }*/
 
   @override
   void initState() {
     super.initState();
-    print("path "+getpath());
-    flickManager = FlickManager(
-        videoPlayerController: VideoPlayerController.network(
-          getpath(),
-          //'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
-          //mockData["items"][0]["trailer_url"],
-          //'https://192.168.10.6:8080//video'
-          // 'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4'
-        ),
-      );
-    }
+    //print("path " + getpath());
+    /*flickManager = FlickManager(
+      videoPlayerController: VideoPlayerController.network(
+        getpath(),
+        //'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+        //mockData["items"][0]["trailer_url"],
+        //'https://192.168.10.6:8080//video'
+        // 'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4'
+      ),
+    );*/
+  }
 
-    // **When the controllers change, call setState() to rebuild widget.**
-    /*..addListener(() => setState(() {}))
+  // **When the controllers change, call setState() to rebuild widget.**
+  /*..addListener(() => setState(() {}))
       ..setLooping(true)
       ..initialize();
       _videoController.play();*/
-    /*_audioController = VideoPlayerController.network(
+  /*_audioController = VideoPlayerController.network(
       'https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3',
     )
       ..addListener(() => setState(() {}))
       ..setLooping(true)
       ..initialize();*/
 
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Container(
+          body: ListView(
+        children: _list
+            .map((e) => GestureDetector(
+                  onTap: () => Navigator.push(context,
+                      MaterialPageRoute(builder: (context) =>  VideoScreen(
+                        name: e['name']!,
+                        videoUrl: e['videoUrl']!
+                      ))),
+                  child:Card(
+                      margin: const EdgeInsets.all(10),
+                      shadowColor: const Color(0x802196F3),
+                      elevation: 5,
+                      child: ListTile(
+                        title: Text(e['name']!),
+                        leading: const Icon(Icons.video_collection),
+                        trailing: Image.network(e['thumbnailUrl']!),
+                      )//Text(e['name']!),
+                  ))
+                  )
+            .toList(),
+      )
+
+          /*Container(
           margin: const EdgeInsets.all(5),
           child:  StaggeredGridView.countBuilder(
               crossAxisCount: 2,
@@ -184,8 +224,8 @@ class _LivepreviewState extends State<Livepreview> {
               staggeredTileBuilder: (index) {
                 return StaggeredTile.count(1, index.isEven ? 1 : 1);
               }),
-        ),
-      ),
+        ),*/
+          ),
     );
 
     /*Scaffold(
@@ -205,9 +245,6 @@ class _LivepreviewState extends State<Livepreview> {
       ),
     );*/
 
-
-
-
     /*return ListView(
       padding: const EdgeInsets.all(4),
       children: <Widget>[
@@ -217,7 +254,7 @@ class _LivepreviewState extends State<Livepreview> {
               ? _buildVideoPlayerUI()
               : const CircularProgressIndicator(),
         ),
-         *//**//* *//*const Divider(),
+         */ /**/ /* */ /*const Divider(),
         const ListTile(title: Text('Play online audio:')),
         Center(
           child: _audioController.value.isInitialized
@@ -231,11 +268,11 @@ class _LivepreviewState extends State<Livepreview> {
                 'from assets, or display subtitles. '
                 'Cf. the plugin documentation.)',
           ),
-        ),*//*
+        ),*/ /*
       ],
     );*/
   }
-    /*Widget _buildVideoPlayerUI() {
+  /*Widget _buildVideoPlayerUI() {
       return VisibilityDetector(
         key: ObjectKey(videos[5]),
         onVisibilityChanged: (visibility) {
@@ -256,18 +293,18 @@ class _LivepreviewState extends State<Livepreview> {
           ),
         ),
       );
-      *//*return Column(
+      */ /*return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         AspectRatio(
           aspectRatio: _videoController.value.aspectRatio,
           child: VideoPlayer(_videoController),
-        ),*//*
-      *//*Text(
+        ),*/ /*
+      */ /*Text(
           '${_videoController.value.position} / ${_videoController.value.duration}',
-        ),*//*
+        ),*/ /*
       //VideoProgressIndicator(_videoController, allowScrubbing: true),
-      *//*ElevatedButton.icon(
+      */ /*ElevatedButton.icon(
           onPressed: () => _videoController.value.isPlaying
               ? _videoController.pause()
               : _videoController.play(),
@@ -299,12 +336,12 @@ class _LivepreviewState extends State<Livepreview> {
             ),
           ),
         ),
-      );*//*
+      );*/ /*
     }*/
-    /*@override
+  /*@override
     void dispose() {
       //_videoController.dispose();
       flickManager.dispose();
       super.dispose();
     }*/
-  }
+}

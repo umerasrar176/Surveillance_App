@@ -13,7 +13,7 @@ class LocalNotificationService {
 
     _notificationsPlugin.initialize(initializationSettings,onDidReceiveNotificationResponse: (message) async{
        if(message != null){
-         print(message);
+         print(message.payload);
        }
      });
 
@@ -41,9 +41,10 @@ class LocalNotificationService {
 
       await _notificationsPlugin.show(
         id,
-        message.notification?.title,
-        message.notification?.body,
-        notificationDetails,
+          message.data['title'],
+          message.data['body'],
+          //message.data['image'],
+          notificationDetails,
       );
     } on Exception catch (e) {
       print(e);

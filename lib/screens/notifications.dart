@@ -32,14 +32,14 @@ class _Notifications extends State<Notifications> {
     ///and it opened the app from terminated state
     FirebaseMessaging.instance.getInitialMessage().then((message) {
       if (message != null) {
-        print(message.notification?.body);
-        print(message.notification?.title);
+        print(message.data['title']);
+        print(message.data['body']);
 
         showDialog<String>(
             context: context,
             builder: (BuildContext context) => AlertDialog(
-          title:  Text(message.notification!.title!),
-          content:  Text(message.notification!.body!),
+          title:  Text(message.data['title']),
+          content:  Text(message.data['title']),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pop(context, 'Cancel'),
@@ -58,8 +58,8 @@ class _Notifications extends State<Notifications> {
     ///forground work
     FirebaseMessaging.onMessage.listen((message) {
       if (message.notification != null) {
-        print(message.notification?.body);
-        print(message.notification?.title);
+        print(message.data['title']);
+        print(message.data['body']);
       }
 
       LocalNotificationService.display(message);
@@ -68,8 +68,8 @@ class _Notifications extends State<Notifications> {
     ///When the app is in background but opened and user taps
     ///on the notification
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      print(message.notification?.title);
-      print(message.notification?.body);
+      print(message.data['title']);
+      print(message.data['body']);
     });
   }
   @override

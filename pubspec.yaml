@@ -36,7 +36,7 @@ dependencies:
   transparent_image: ^2.0.0
   lite_rolling_switch: ^1.0.0
   #qr_code_scanner: ^0.7.0
-  flick_video_player: ^0.3.1
+  #flick_video_player: ^0.3.1
   visibility_detector: ^0.3.3
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -46,6 +46,7 @@ dependencies:
   overlay_support: ^2.0.1
   flutter_local_notifications: ^10.0.0
   mb_contact_form: ^0.0.1
+  better_player: ^0.0.83
   #videos_player: ^0.1.2
 
 
