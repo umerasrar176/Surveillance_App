@@ -248,7 +248,6 @@ class _ProfileAppState extends State<ProfileApp> {
         ],
       ),*/
 
-
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(

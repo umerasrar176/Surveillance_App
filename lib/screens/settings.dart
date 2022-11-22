@@ -14,6 +14,54 @@ class _Settings extends State<Settings> {
   bool _isSelected= false;
   int _selectedDestination = -1;
 
+  TimeOfDay _ActiveS = TimeOfDay(hour: 8, minute: 30);
+  TimeOfDay _ActiveE = TimeOfDay(hour: 8, minute: 30);
+  TimeOfDay _SilentS = TimeOfDay(hour: 8, minute: 30);
+  TimeOfDay _SilentE = TimeOfDay(hour: 8, minute: 30);
+
+
+  // show time picker method
+  void _ActiveStart() {
+    showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    ).then((value) {
+      setState(() {
+        _ActiveS = value!;
+      });
+    });
+  }
+  void _ActiveEnd() {
+    showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    ).then((value) {
+      setState(() {
+        _ActiveE = value!;
+      });
+    });
+  }
+  void _SilentStart() {
+    showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    ).then((value) {
+      setState(() {
+        _SilentS = value!;
+      });
+    });
+  }
+  void _SilentEnd() {
+    showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    ).then((value) {
+      setState(() {
+        _SilentE = value!;
+      });
+    });
+  }
+
   void selectDestination(int index) {
     setState(() {
       _selectedDestination = index;
@@ -36,6 +84,16 @@ class _Settings extends State<Settings> {
             crossAxisSpacing: 12.0,
             mainAxisSpacing: 12.0,
             padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 8.0),
+            staggeredTiles: const [
+              StaggeredTile.extent(2, 70.0),
+              StaggeredTile.extent(2, 75.0),
+              StaggeredTile.extent(1, 155.0),
+              StaggeredTile.extent(1, 155.0),
+              StaggeredTile.extent(2, 75.0),
+              StaggeredTile.extent(2, 60.0),
+              StaggeredTile.extent(2, 60.0),
+              StaggeredTile.extent(2, 110.0),
+            ],
             children: <Widget>[
               getSearchBarUI(),
               /*_buildTile(
@@ -308,7 +366,9 @@ class _Settings extends State<Settings> {
                                       iconSize: 60,
                                       color: Colors.black,
                                       //tooltip: 'Increase volume by 5',
-                                      onPressed: () => showDialog<String>(
+                                      onPressed: _ActiveStart,
+
+                                      /*() => showDialog<String>(
                                         context: context,
                                         builder: (BuildContext context) => AlertDialog(
                                           title: const Text('Active Mode'),
@@ -324,7 +384,7 @@ class _Settings extends State<Settings> {
                                             ),
                                           ],
                                         ),
-                                      ),
+                                      ),*/
                                     ),
                                   ),
                                 )
@@ -343,7 +403,9 @@ class _Settings extends State<Settings> {
                                       iconSize: 60,
                                       color: Colors.black,
                                       //tooltip: 'Increase volume by 5',
-                                      onPressed: () => showDialog<String>(
+                                      onPressed: _ActiveEnd,
+
+                                      /*() => showDialog<String>(
                                         context: context,
                                         builder: (BuildContext context) => AlertDialog(
                                           title: const Text('Active Mode'),
@@ -359,7 +421,7 @@ class _Settings extends State<Settings> {
                                             ),
                                           ],
                                         ),
-                                      ),
+                                      ),*/
                                     ),
                                   ),
                                 )
@@ -375,6 +437,7 @@ class _Settings extends State<Settings> {
                 elevation: 4.0,
                 Radius: 0.0,
               ),
+
 
               _buildTile( //Silent mode
                 Padding
@@ -411,7 +474,9 @@ class _Settings extends State<Settings> {
                                       iconSize: 60,
                                       color: Colors.black,
                                       //tooltip: 'Increase volume by 5',
-                                      onPressed: () => showDialog<String>(
+                                      onPressed: _SilentStart,
+
+                                      /*() => showDialog<String>(
                                         context: context,
                                         builder: (BuildContext context) => AlertDialog(
                                           title: const Text('Silent Mode'),
@@ -427,7 +492,7 @@ class _Settings extends State<Settings> {
                                             ),
                                           ],
                                         ),
-                                      ),
+                                      ),*/
                                     ),
                                   ),
                                 )
@@ -446,7 +511,9 @@ class _Settings extends State<Settings> {
                                       iconSize: 60,
                                       color: Colors.black,
                                       //tooltip: 'Increase volume by 5',
-                                      onPressed: () => showDialog<String>(
+                                      onPressed: _SilentEnd,
+
+                                      /*() => showDialog<String>(
                                         context: context,
                                         builder: (BuildContext context) => AlertDialog(
                                           title: const Text('Silent Mode'),
@@ -462,7 +529,7 @@ class _Settings extends State<Settings> {
                                             ),
                                           ],
                                         ),
-                                      ),
+                                      ),*/
                                     ),
                                   ),
                                 )
@@ -477,15 +544,66 @@ class _Settings extends State<Settings> {
                 elevation: 4.0,
                 Radius: 0.0,
               ),
-            ],
-            staggeredTiles: const [
-              StaggeredTile.extent(2, 70.0),
-              StaggeredTile.extent(2, 75.0),
-              StaggeredTile.extent(1, 155.0),
-              StaggeredTile.extent(1, 155.0),
-              StaggeredTile.extent(2, 75.0),
-              StaggeredTile.extent(2, 60.0),
-              StaggeredTile.extent(2, 60.0),
+
+              _buildTile( //Silent mode
+                Padding
+                  (
+                  padding: const EdgeInsets.only(left:1.0,top: 10.0,right: 1.0,bottom: 10.0),
+                  child: Table(
+                      border: TableBorder.all(
+                          color: Colors.black,
+                          style: BorderStyle.solid,
+                          width: 2
+                      ), // Allows to add a border decoration around your table
+                      children:  [
+                        TableRow(children :[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(children: const [Text('Active Start', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20.0))]),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(children: const [Text('Active End', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20.0))]),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(children: const [Text('Silent start', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20.0))]),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(children: const [Text('Silent End', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20.0))]),
+                          ),
+                        ]),
+                        TableRow(children :[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(children: [Text( _ActiveS.format(context).toString(),)]),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(children: [Text( _ActiveE.format(context).toString(),)]),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(children: [Text( _SilentS.format(context).toString(),)]),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(children: [Text( _SilentE.format(context).toString(),)]),
+                          ),
+                        ]),
+                        /*TableRow(children :[
+                          Text('1996'),
+                          Text('Java'),
+                          Text('James Gosling'),
+                        ]),*/
+                      ]
+                  ),
+                  ),
+                color: Colors.white,
+                elevation: 4.0,
+                Radius: 0.0,
+              ),
             ],
           ),
         );

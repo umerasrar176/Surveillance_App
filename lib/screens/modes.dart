@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Modes extends StatefulWidget {
   const Modes({Key? key}) : super(key: key);
@@ -7,7 +12,77 @@ class Modes extends StatefulWidget {
   _Modes createState() => _Modes();
 }
 
+
+
 class _Modes extends State<Modes> {
+
+  modeActive() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var id = prefs.getString('id');
+    var token = prefs.getString('auth_token');
+    print("making connection...");
+    String urlComplete= 'https://expressapiapp.azurewebsites.net/api/camera/updateCamera/'+id!;
+    var url = Uri.parse(urlComplete);
+    final response = await http.put(
+      url,
+      body: {
+        "mode": 'active',
+      },
+      headers: {
+        'Authorization': 'Bearer $token'
+      },
+    );
+    print(response.statusCode);
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      print(id);
+      addToast("Mode Changed successful");
+    }
+    else {
+      addToast("Failed");
+    }
+  }
+
+  modeSilent() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var id = prefs.getString('id');
+    var token = prefs.getString('auth_token');
+    print("making connection...");
+    String urlComplete= 'https://expressapiapp.azurewebsites.net/api/camera/updateCamera/'+id!;
+    var url = Uri.parse(urlComplete);
+    final response = await http.put(
+      url,
+      body: {
+        "mode": 'silent',
+      },
+      headers: {
+        'Authorization': 'Bearer $token'
+      },
+    );
+    print(response.statusCode);
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      print(id);
+      addToast("Mode Changed successful");
+    }
+    else {
+      addToast("Failed");
+    }
+  }
+
+  addToast(String toast) {
+    return Fluttertoast.showToast(
+        msg: toast,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 2,
+        backgroundColor: toast == "Mode Changed successful" ? Colors.green : Colors.red,
+        textColor: Colors.white);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,24 +123,7 @@ class _Modes extends State<Modes> {
                           //This keeps the splash effect within the circle
                           borderRadius: BorderRadius.circular(
                               1000.0), //Something large to ensure a circle
-                          onTap: () => showDialog<String>(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                              title: const Text('Active Mode'),
-                              content: const Text('Active mode enabled'),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () =>
-                                      Navigator.pop(context, 'Cancel'),
-                                  child: const Text('Cancel'),
-                                ),
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context, 'OK'),
-                                  child: const Text('OK'),
-                                ),
-                              ],
-                            ),
-                          ),
+                          onTap: modeActive,
                           child: const Padding(
                             padding: EdgeInsets.all(20.0),
                             child: Icon(
@@ -111,23 +169,7 @@ class _Modes extends State<Modes> {
                           //This keeps the splash effect within the circle
                           borderRadius: BorderRadius.circular(
                               1000.0), //Something large to ensure a circle
-                          onTap: () => showDialog<String>(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                              title: const Text('Silent Mode'),
-                              content: const Text('Silent mode enabled'),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context, 'Cancel'),
-                                  child: const Text('Cancel'),
-                                ),
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context, 'OK'),
-                                  child: const Text('OK'),
-                                ),
-                              ],
-                            ),
-                          ),
+                          onTap: modeSilent,
                           child: const Padding(
                             padding: EdgeInsets.all(20.0),
                             child: Icon(

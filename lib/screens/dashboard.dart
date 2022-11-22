@@ -1,11 +1,14 @@
 import 'dart:convert';
 
 import 'package:surveillance_app/screens/drawer.dart';
+import 'package:surveillance_app/screens/paired_devices.dart';
 import 'package:surveillance_app/screens/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'add_device.dart';
 
 class Dashboard extends StatefulWidget {
 
@@ -138,9 +141,10 @@ class _DashboardState extends State<Dashboard> {
             StaggeredTile.extent(2, 80.0),
             StaggeredTile.extent(1, 155.0),
             StaggeredTile.extent(1, 155.0),
-            StaggeredTile.extent(2, 200.0),
-            StaggeredTile.extent(2, 200.0),
-            StaggeredTile.extent(2, 200.0),
+            StaggeredTile.extent(2, 10.0),
+            StaggeredTile.extent(2, 60.0),
+            StaggeredTile.extent(2, 5.0),
+            StaggeredTile.extent(2, 60.0),
           ],
           children: <Widget>[
                 getSearchBarUI(),
@@ -311,11 +315,27 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ),
             ),
-            _buildTile(
+            /*_buildTile(
               Padding
                 (
                   padding: const EdgeInsets.all(24.0),
-                  child: Column
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.teal,
+                      foregroundColor: Colors.white,
+                      textStyle: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 40,
+                          fontStyle: FontStyle.italic
+                      ),
+                    ),
+                    onPressed: () {
+                      print('Pressed');
+                    },
+                    child: Text('View all Cameras'),
+                  )
+
+                  *//*Column
                     (
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -337,7 +357,7 @@ class _DashboardState extends State<Dashboard> {
                                 (
                                 child: Icon(Icons.camera_alt, color: Colors.blue, size: 40.0),
                               ),
-                              /*const Text('Total Views', style: TextStyle(color: Colors.blueAccent)),*/
+                              const Text('Total Views', style: TextStyle(color: Colors.blueAccent)),*//**//*
                               const Text('Camera 1', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 27.0)),
                               Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -384,15 +404,15 @@ class _DashboardState extends State<Dashboard> {
                       )
                     ],
                   ),
-                      /*const Padding(padding: EdgeInsets.only(bottom: 4.0)),*/
-                      /*Sparkline
+                      *//**//*const Padding(padding: EdgeInsets.only(bottom: 4.0)),*//**//*
+                      *//**//*Sparkline
                         (
                         data: charts[actualChart],
                         lineWidth: 5.0,
                         lineColor: Colors.greenAccent,
-                      )*/
+                      )*//**//*
                     ],
-                  )
+                  )*//*
               ),
             ),
             _buildTile(
@@ -421,7 +441,7 @@ class _DashboardState extends State<Dashboard> {
                                 (
                                 child: Icon(Icons.camera_alt, color: Colors.blue, size: 40.0),
                               ),
-                              /*const Text('Total Views', style: TextStyle(color: Colors.blueAccent)),*/
+                              *//*const Text('Total Views', style: TextStyle(color: Colors.blueAccent)),*//*
                               const Text('Camera 2', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 27.0)),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -449,14 +469,14 @@ class _DashboardState extends State<Dashboard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: const <Widget>
                         [
-                          /*Material
+                          *//*Material
                             (
                             child: Icon(Icons.warning_amber_outlined, color: Colors.blue, size: 25.0),
                           ),
                           Material
                             (
                             child: Icon(Icons.notifications_none, color: Colors.blue, size: 25.0),
-                          ),*/
+                          ),*//*
                           Material(
                             child: Icon(Icons.connected_tv, color: Colors.blue, size: 25.0),
                           ),
@@ -468,13 +488,13 @@ class _DashboardState extends State<Dashboard> {
                           )
                         ],
                       ),
-                      /*const Padding(padding: EdgeInsets.only(bottom: 4.0)),*/
-                      /*Sparkline
+                      *//*const Padding(padding: EdgeInsets.only(bottom: 4.0)),*//*
+                      *//*Sparkline
                         (
                         data: charts[actualChart],
                         lineWidth: 5.0,
                         lineColor: Colors.greenAccent,
-                      )*/
+                      )*//*
                     ],
                   )
               ),
@@ -505,7 +525,7 @@ class _DashboardState extends State<Dashboard> {
                                 (
                                 child: Icon(Icons.camera_alt, color: Colors.blue, size: 40.0),
                               ),
-                              /*const Text('Total Views', style: TextStyle(color: Colors.blueAccent)),*/
+                              *//*const Text('Total Views', style: TextStyle(color: Colors.blueAccent)),*//*
                               const Text('Camera 3', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 27.0)),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -552,17 +572,62 @@ class _DashboardState extends State<Dashboard> {
                           )
                         ],
                       ),
-                      /*const Padding(padding: EdgeInsets.only(bottom: 4.0)),*/
-                      /*Sparkline
+                      *//*const Padding(padding: EdgeInsets.only(bottom: 4.0)),*//*
+                      *//*Sparkline
                         (
                         data: charts[actualChart],
                         lineWidth: 5.0,
                         lineColor: Colors.greenAccent,
-                      )*/
+                      )*//*
                     ],
                   )
               ),
+            ),*/
+            const SizedBox(
+              height: 3.0,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 20.0),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueAccent,
+                  foregroundColor: Colors.white,
+                  textStyle: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 30,
+                      fontStyle: FontStyle.italic
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const AddDevice()));
+                },
+                child: Text('Add a Camera'),
+              ),
+            ),
+            const SizedBox(
+              height: 3.0,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 20.0),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueAccent,
+                  foregroundColor: Colors.white,
+                  textStyle: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 30,
+                      fontStyle: FontStyle.italic
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const PairedDevices()));
+                },
+                child: Text('View all Cameras'),
+              ),
             )
+
           ],
         )
       /*appBar: AppBar(

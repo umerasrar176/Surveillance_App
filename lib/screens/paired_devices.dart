@@ -137,6 +137,7 @@ class _PairedDevicesState extends State<PairedDevices> {
           itemBuilder: (BuildContext context, int index) {
             return ListTile(
               title: Text(mylist[index]["name"]),
+              subtitle: Text(mylist[index]["status"]),
               leading: const Icon(Icons.linked_camera),
               trailing: PopupMenuButton<String>(
                 itemBuilder: (context) => [

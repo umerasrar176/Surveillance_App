@@ -23,6 +23,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:surveillance_app/services/local_notification_service.dart';
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 
 //flutter run --no-sound-null-safety
 //flutter build apk --release --no-sound-null-safety
@@ -121,6 +122,7 @@ class _MyHomePage extends State<MyHomePage> {
   int selectedPageIndex = 2;
   int _selectedDestination = -1;
   bool _isSelected = false;
+  int _currentIndex = 2;
 
   final AuthService _auth = AuthService();
 
@@ -145,8 +147,10 @@ class _MyHomePage extends State<MyHomePage> {
       return "Modes";
     } else if (selectedPageIndex == 3) {
       return "Live preview";
-    } else {
-      return "Profile";
+    } else if (selectedPageIndex == 4) {
+      return "Profile"; }
+    else {
+      return "0";
     }
   }
 
@@ -319,7 +323,7 @@ class _MyHomePage extends State<MyHomePage> {
                     ),
                   ),
                 )),
-            ListTile(
+            /*ListTile(
               leading: const Icon(Icons.dark_mode),
               trailing: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -338,7 +342,7 @@ class _MyHomePage extends State<MyHomePage> {
                 selectDestination(0);
                 Navigator.pop(context);
               },
-            ),
+            ),*/
             /*ListTile(
                 leading: const Icon(Icons.person),
                 title: const Text('Profile'),
@@ -450,7 +454,7 @@ class _MyHomePage extends State<MyHomePage> {
           ],
         ),
       ),
-      bottomNavigationBar: FancyBottomNavigation(
+      /*bottomNavigationBar: FancyBottomNavigation(
         tabs: [
           TabData(iconData: Icons.doorbell, title: "Notifications"),
           TabData(iconData: Icons.shield, title: "Modes"),
@@ -463,7 +467,45 @@ class _MyHomePage extends State<MyHomePage> {
             selectedPageIndex = position;
           });
         },
-      ),
-    );
+      ),*/
+        bottomNavigationBar: BottomNavyBar(
+          containerHeight: 70,
+          selectedIndex: _currentIndex,
+          showElevation: true, // use this to remove appBar's elevation
+          onItemSelected: (position) {
+            setState(() {
+              _currentIndex= position;
+              selectedPageIndex = position;
+            });
+          },
+          items: [
+            BottomNavyBarItem(
+              icon: const Icon(Icons.doorbell),
+              title: const Text('Notifications', style: TextStyle(fontSize: 15),),
+              activeColor: Colors.blueAccent,
+            ),
+            BottomNavyBarItem(
+                icon: const Icon(Icons.shield),
+                title: const Text('Modes', style: TextStyle(fontSize: 15),),
+                activeColor: Colors.blueAccent
+            ),
+            BottomNavyBarItem(
+                icon: const Icon(Icons.home),
+                title: const Text('Home', style: TextStyle(fontSize: 15),),
+                activeColor: Colors.blueAccent
+            ),
+            BottomNavyBarItem(
+                icon: const Icon(Icons.play_arrow),
+                title: const Text('Live Preview'),
+                activeColor: Colors.blueAccent
+            ),
+            BottomNavyBarItem(
+                icon: const Icon(Icons.person),
+                title: const Text('Profile', style: TextStyle(fontSize: 15),),
+                activeColor: Colors.blueAccent
+            ),
+          ],
+        )
+      );
   }
 }
