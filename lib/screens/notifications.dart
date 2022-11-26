@@ -21,23 +21,28 @@ class Notifications extends StatefulWidget {
 class _Notifications extends State<Notifications> {
   List mylist = [];
   bool _isSelected = false;
+  bool _isloading = true;
   getList() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var id = prefs.getString('id');
     var token = prefs.getString('auth_token');
     print("making connection...");
-    String urlComplete = 'https://expressapiapp.azurewebsites.net/api/alert/GetAlert/' + id!;
+    String urlComplete =
+        'https://expressapiapp.azurewebsites.net/api/alert/GetAlert/' + id!;
     var url = Uri.parse(urlComplete);
     final response = await http.get(
       url,
-      headers: {
-        'Authorization': 'Bearer $token'
-      },
+      headers: {'Authorization': 'Bearer $token'},
     );
     print(response.statusCode);
     //print(response.body);
     var data = jsonDecode(response.body);
     //var data = Data.fromJson(response.body);
+    if (data != null) {
+      setState(() {
+        _isloading = false;
+      });
+    }
     print(data);
     print(data?.length);
     setState(() {
@@ -138,72 +143,84 @@ class _Notifications extends State<Notifications> {
           ],
         ),*/
       //drawer: drawer(),
-      body: ListView.separated(
-          separatorBuilder: (BuildContext context, int index) {
-            return const SizedBox(
-              height: 5,
-            );
-          },
-          itemCount: mylist.length,
-          itemBuilder: (BuildContext context, int index) {
-            return _buildTile(Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
-              child: Row(
-                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+      body: _isloading
+          ? const Center(
+              child: SizedBox(
+                height: 100,
+                width: 100,
+                child: CircularProgressIndicator(
+                  backgroundColor: Colors.blue,
+                  valueColor: AlwaysStoppedAnimation(Colors.white),
+                  strokeWidth: 10,
+                ),
+              )
+            )
+          : ListView.separated(
+              separatorBuilder: (BuildContext context, int index) {
+                return const SizedBox(
+                  height: 5,
+                );
+              },
+              itemCount: mylist.length,
+              itemBuilder: (BuildContext context, int index) {
+                return _buildTile(Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 5.0, horizontal: 20.0),
+                  child: Row(
+                      //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Material(
-                            child: Text(mylist[index]["description"],
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 22.0))),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        SizedBox(
-                          width: 290,
-                          child: Text(
-                            mylist[index]["camera"],
-                            style: const TextStyle(
-                              fontSize: 13,
-                              //fontWeight: FontWeight.bold
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 90,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Column(
+                        Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
+                            Material(
+                                child: Text(mylist[index]["description"],
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 22.0))),
                             const SizedBox(
-                              height: 25,
+                              height: 15,
                             ),
-                            PopupMenuButton<String>(
-                              itemBuilder: (context) => [
-                                const PopupMenuItem(
-                                  value: "Remove",
-                                  child: Text("Remove"),
-                                  //onTap: ,
+                            SizedBox(
+                              width: 290,
+                              child: Text(
+                                mylist[index]["camera"],
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  //fontWeight: FontWeight.bold
                                 ),
-                              ],
+                              ),
                             ),
-                          ]),
-                    ),
-                  ]),
-            ));
-          }),
+                          ],
+                        ),
+                        const SizedBox(
+                          width: 90,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                const SizedBox(
+                                  height: 25,
+                                ),
+                                PopupMenuButton<String>(
+                                  itemBuilder: (context) => [
+                                    const PopupMenuItem(
+                                      value: "Remove",
+                                      child: Text("Remove"),
+                                      //onTap: ,
+                                    ),
+                                  ],
+                                ),
+                              ]),
+                        ),
+                      ]),
+                ));
+              }),
 
       /*StaggeredGridView.count(
           crossAxisCount: 2,

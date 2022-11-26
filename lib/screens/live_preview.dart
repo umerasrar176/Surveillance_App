@@ -17,8 +17,7 @@ class Livepreview extends StatefulWidget {
   _LivepreviewState createState() => _LivepreviewState();
 }
 
-int count = 0;
-
+  int count = 0;
 class _LivepreviewState extends State<Livepreview> {
   /*int _currentIndex = 0;
   final List _children = [];
@@ -89,8 +88,8 @@ class _LivepreviewState extends State<Livepreview> {
       'id': "7",
       'name': "IP Camera",
       'videoUrl':
-      //"rtsp://192.168.0.103:8080/h264_ulaw.sdp",
-      "https://192.168.0.103:8080/video",
+      "rtsp://admin:Ecaict123@192.168.43.228:554/live/ch00_1",
+      //"https://192.168.0.103:8080/video",
       'thumbnailUrl':
       "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerBlazes.jpg"
     }

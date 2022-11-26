@@ -19,7 +19,12 @@ class Data {
   final String status;
   final String videoLink;
 
-  Data({required this.cameraId, required this.name, required this.mode, required this.status, required this.videoLink});
+  Data(
+      {required this.cameraId,
+      required this.name,
+      required this.mode,
+      required this.status,
+      required this.videoLink});
 
   factory Data.fromJson(Map<String, dynamic> json) {
     return Data(
@@ -32,17 +37,17 @@ class Data {
   }
 }
 
-  //print(data.runtimeType);
-  //var d1 = await data.map((data) async => Data.fromJson(data)).toList() as Future<List<Data>>;
-  //print(d1.runtimeType);
-  //List<dynamic> list =  data.map((data) => Data.fromJson(data)).toList();
-  //List<Data> list=new List<Data>.fromJson(data);
-  //cameras= list;
+//print(data.runtimeType);
+//var d1 = await data.map((data) async => Data.fromJson(data)).toList() as Future<List<Data>>;
+//print(d1.runtimeType);
+//List<dynamic> list =  data.map((data) => Data.fromJson(data)).toList();
+//List<Data> list=new List<Data>.fromJson(data);
+//cameras= list;
 
-  //return list;
-  //int id = data['id'];
+//return list;
+//int id = data['id'];
 
-  /*if (response.statusCode == 200) {
+/*if (response.statusCode == 200) {
     print("in response state");
     setState(() => showDialog<String>(
         context: context,
@@ -66,8 +71,8 @@ class Data {
     addToast("Register fail");
   }*/
 class _PairedDevicesState extends State<PairedDevices> {
-
-   List mylist =[];
+  List mylist = [];
+  bool _isloading = true;
   @override
   void initState() {
     super.initState();
@@ -75,30 +80,36 @@ class _PairedDevicesState extends State<PairedDevices> {
     //print(add());
   }
 
-    //List cameras =[];
-    add() async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      var id = prefs.getString('id');
-      var token = prefs.getString('auth_token');
-      print("making connection...");
-      String urlComplete = 'https://expressapiapp.azurewebsites.net/api/camera/ViewAllCameras/' + id!;
-      var url = Uri.parse(urlComplete);
-      final response = await http.get(
-        url,
-        headers: {
-          'Authorization': 'Bearer $token'
-        },
-      );
-      print(response.statusCode);
-      //print(response.body);
-      var data = jsonDecode(response.body);
-      //var data = Data.fromJson(response.body);
-      print(data);
-      print(data?.length);
+  //List cameras =[];
+  add() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var id = prefs.getString('id');
+    var token = prefs.getString('auth_token');
+    print("making connection...");
+    String urlComplete =
+        'https://expressapiapp.azurewebsites.net/api/camera/ViewAllCameras/' +
+            id!;
+    var url = Uri.parse(urlComplete);
+    final response = await http.get(
+      url,
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    print(response.statusCode);
+    //print(response.body);
+    var data = jsonDecode(response.body);
+    //var data = Data.fromJson(response.body);
+    print(data);
+    print(data?.length);
+    setState(() {
+      mylist = data;
+    });
+
+    if (data != null) {
       setState(() {
-        mylist = data;
+        _isloading = false;
       });
-     /* if (data.length > 0) {
+    }
+    /* if (data.length > 0) {
         for (int i = 0; i < data.length; i++) {
           if (data[i] != null) {
             Map<String, dynamic> map = data[i];
@@ -107,13 +118,13 @@ class _PairedDevicesState extends State<PairedDevices> {
         }
       }
       mylist= cameras ;*/
-    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-        title: const Text('All Devices'),
+          title: const Text('All Devices'),
         ),
         /*body: ListView(
           children: [
@@ -132,26 +143,36 @@ class _PairedDevicesState extends State<PairedDevices> {
             ),
           ],
         ),*/
-      body: ListView.builder(
-          itemCount: mylist?.length,
-          itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              title: Text(mylist[index]["name"]),
-              subtitle: Text(mylist[index]["status"]),
-              leading: const Icon(Icons.linked_camera),
-              trailing: PopupMenuButton<String>(
-                itemBuilder: (context) => [
-                  const PopupMenuItem(
-                    value: "Remove",
-                    child: Text("Remove"),
-                    //onTap: ,
-                  ),
-                ],
-              ),
-            );
-          }
-      )
-      /*FutureBuilder (
+        body: _isloading
+            ? const Center(
+                child: SizedBox(
+                height: 100,
+                width: 100,
+                child: CircularProgressIndicator(
+                  backgroundColor: Colors.blue,
+                  valueColor: AlwaysStoppedAnimation(Colors.white),
+                  strokeWidth: 10,
+                ),
+              ))
+            : ListView.builder(
+                itemCount: mylist?.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ListTile(
+                    title: Text(mylist[index]["name"]),
+                    subtitle: Text(mylist[index]["status"]),
+                    leading: const Icon(Icons.linked_camera),
+                    trailing: PopupMenuButton<String>(
+                      itemBuilder: (context) => [
+                        const PopupMenuItem(
+                          value: "Remove",
+                          child: Text("Remove"),
+                          //onTap: ,
+                        ),
+                      ],
+                    ),
+                  );
+                })
+        /*FutureBuilder (
           future: add() ,
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
@@ -182,7 +203,6 @@ class _PairedDevicesState extends State<PairedDevices> {
             return const CircularProgressIndicator();
           },
         ),*/
-    );
-
-    }
+        );
+  }
 }
