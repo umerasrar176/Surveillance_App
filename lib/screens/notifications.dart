@@ -186,7 +186,7 @@ class _Notifications extends State<Notifications> {
                             SizedBox(
                               width: 290,
                               child: Text(
-                                mylist[index]["camera"],
+                                mylist[index]["createdAt"],
                                 style: const TextStyle(
                                   fontSize: 13,
                                   //fontWeight: FontWeight.bold
@@ -195,11 +195,8 @@ class _Notifications extends State<Notifications> {
                             ),
                           ],
                         ),
-                        const SizedBox(
-                          width: 90,
-                        ),
                         Padding(
-                          padding: const EdgeInsets.all(5.0),
+                          padding: const EdgeInsets.all(1.0),
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -208,6 +205,7 @@ class _Notifications extends State<Notifications> {
                                   height: 25,
                                 ),
                                 PopupMenuButton<String>(
+                                  icon: const Icon(Icons.abc, color: Colors.white70,),
                                   itemBuilder: (context) => [
                                     const PopupMenuItem(
                                       value: "Remove",

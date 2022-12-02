@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 
 class VideoScreen extends StatefulWidget {
   final String name, videoUrl;
@@ -14,6 +15,7 @@ class VideoScreen extends StatefulWidget {
 class _VideoScreenState extends State<VideoScreen> {
   late BetterPlayerController _controller;
   final GlobalKey _playerKey = GlobalKey();
+  late VlcPlayerController _videoPlayerController;
 
   @override
   void initState() {
@@ -21,10 +23,17 @@ class _VideoScreenState extends State<VideoScreen> {
         const BetterPlayerConfiguration(
             aspectRatio: 16 / 9, fit: BoxFit.contain);
     BetterPlayerDataSource _playerDatasource = BetterPlayerDataSource(
-        BetterPlayerDataSourceType.network, widget.videoUrl);
+        BetterPlayerDataSourceType.file, widget.videoUrl);
     _controller = BetterPlayerController(_playerConfigurations);
     _controller.setupDataSource(_playerDatasource);
     _controller.setBetterPlayerGlobalKey(_playerKey);
+
+    _videoPlayerController = VlcPlayerController.network(
+      widget.videoUrl,
+      hwAcc: HwAcc.full,
+      //autoPlay: false,
+      options: VlcPlayerOptions(),
+    );
 
     super.initState();
   }
@@ -43,10 +52,15 @@ class _VideoScreenState extends State<VideoScreen> {
           Expanded(
               child: AspectRatio(
             aspectRatio: 16 / 9,
-            child: BetterPlayer(
+            child: VlcPlayer(
+              controller: _videoPlayerController,
+              aspectRatio: 16 / 9,
+              placeholder: const Center(child: CircularProgressIndicator()),
+            ),
+                /*BetterPlayer(
               key: _playerKey,
               controller: _controller,
-            ),
+            ),*/
           ))
         ],
       ),

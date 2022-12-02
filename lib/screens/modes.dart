@@ -16,6 +16,22 @@ class Modes extends StatefulWidget {
 
 class _Modes extends State<Modes> {
 
+  @override
+  void initState() {
+    super.initState();
+    test();
+  }
+
+  test() async{
+    print("New test stream connection");
+    String url1= 'http://10.0.2.2:5000/stream';
+    var url11 = Uri.parse(url1);
+    var client =http.Client();
+    client.get(
+      url11,
+    ).then((response) => print(response.body));
+  }
+
   modeActive() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var id = prefs.getString('id');
@@ -95,7 +111,8 @@ class _Modes extends State<Modes> {
                 child: SizedBox(
                   height: 450,
                   child: FittedBox(
-                      child: Image.asset("assets/images/object detection.jpg"),
+                      child: //Image.network('http://10.0.2.2:5000/stream'),
+                      Image.asset("assets/images/object detection.jpg"),
                       fit: BoxFit.cover),
                 ),
               ),

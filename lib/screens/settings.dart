@@ -2,7 +2,7 @@ import 'package:surveillance_app/screens/paired_devices.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'add_device.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
   @override
@@ -14,50 +14,153 @@ class _Settings extends State<Settings> {
   bool _isSelected= false;
   int _selectedDestination = -1;
 
+  @override
+  void initState() {
+    super.initState();
+
+    /*var s = "6:30";
+    TimeOfDay _startTime = TimeOfDay(hour:int.parse(s.split(":")[0]),minute: int.parse(s.split(":")[1]));
+    //List1();
+    print(_startTime);*/
+    getPref();
+
+  }
+  List mylist = List.filled(4, null);
+
   TimeOfDay _ActiveS = TimeOfDay(hour: 8, minute: 30);
   TimeOfDay _ActiveE = TimeOfDay(hour: 8, minute: 30);
   TimeOfDay _SilentS = TimeOfDay(hour: 8, minute: 30);
   TimeOfDay _SilentE = TimeOfDay(hour: 8, minute: 30);
 
+  var value;
+  getPref() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      value = preferences.getString("ActiveS");
+      print("my time"+value);
+      TimeOfDay AS = TimeOfDay(hour:int.parse(value.split(":")[0]),minute: int.parse(value.split(":")[1]));
+      setState((){
+      _ActiveS = AS;
+      });
+      value = preferences.getString("ActiveE");
+      TimeOfDay AE = TimeOfDay(hour:int.parse(value.split(":")[0]),minute: int.parse(value.split(":")[1]));
+      setState((){
+        _ActiveE = AE;
+      });
+      value = preferences.getString("SilentS");
+      TimeOfDay SS = TimeOfDay(hour:int.parse(value.split(":")[0]),minute: int.parse(value.split(":")[1]));
+      setState((){
+        _SilentS = SS;
+      });
+      value = preferences.getString("SilentE");
+      TimeOfDay SE = TimeOfDay(hour:int.parse(value.split(":")[0]),minute: int.parse(value.split(":")[1]));
+      setState((){
+        _SilentE = SE;
+      });
+    });
+  }
 
+
+
+  ActiveS(String actives) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      preferences.setString("ActiveS", actives);
+      preferences.commit();
+    });
+  }
+
+  ActiveE(String activee) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      preferences.setString("ActiveE", activee);
+      preferences.commit();
+    });
+  }
+
+  SilentS(String silents) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      preferences.setString("SilentS", silents);
+      preferences.commit();
+    });
+  }
+
+  SilentE(String silente) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      preferences.setString("SilentE", silente);
+      preferences.commit();
+    });
+  }
+
+
+
+
+  /*void List1(){
+    mylist[0] = _ActiveS;
+    mylist[1] = _ActiveE;
+    mylist[2] = _SilentS;
+    mylist[3] = _SilentE;
+
+    print(mylist);\
+
+
+  }*/
   // show time picker method
   void _ActiveStart() {
     showTimePicker(
       context: context,
-      initialTime: TimeOfDay.now(),
+      initialTime: _ActiveS,
     ).then((value) {
       setState(() {
         _ActiveS = value!;
+        int hour = value.hour;
+        int min = value.minute;
+        String date = (hour.toString()+":"+min.toString());
+        ActiveS(date);
       });
     });
   }
   void _ActiveEnd() {
     showTimePicker(
       context: context,
-      initialTime: TimeOfDay.now(),
+      initialTime: _ActiveE,
     ).then((value) {
       setState(() {
         _ActiveE = value!;
+        int hour = value.hour;
+        int min = value.minute;
+        String date = (hour.toString()+":"+min.toString());
+        ActiveE(date);
       });
     });
   }
   void _SilentStart() {
     showTimePicker(
       context: context,
-      initialTime: TimeOfDay.now(),
+      initialTime: _SilentS,
     ).then((value) {
       setState(() {
         _SilentS = value!;
+        int hour = value.hour;
+        int min = value.minute;
+        String date = (hour.toString()+":"+min.toString());
+        SilentS(date);
       });
     });
   }
   void _SilentEnd() {
     showTimePicker(
       context: context,
-      initialTime: TimeOfDay.now(),
+      initialTime: _SilentE,
     ).then((value) {
       setState(() {
         _SilentE = value!;
+        int hour = value.hour;
+        int min = value.minute;
+        String date = (hour.toString()+":"+min.toString());
+        SilentE(date);
       });
     });
   }
@@ -92,7 +195,7 @@ class _Settings extends State<Settings> {
               StaggeredTile.extent(2, 75.0),
               StaggeredTile.extent(2, 60.0),
               StaggeredTile.extent(2, 60.0),
-              StaggeredTile.extent(2, 110.0),
+              //StaggeredTile.extent(2, 110.0),
             ],
             children: <Widget>[
               getSearchBarUI(),

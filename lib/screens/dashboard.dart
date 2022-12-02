@@ -26,12 +26,17 @@ class _DashboardState extends State<Dashboard> {
     super.initState();
     total();
     unpairedC();
+    Active();
+    Silent();
   }
 
   //const [totalCamera, setTotalcamera] = useState('0');
   late var totalCamera = '0';
   late var unpaired = '0';
   late var paired = '0';
+  late var activeCount = '0';
+  late var  silentCount= '0';
+
 
 
     pairedC() async {
@@ -86,6 +91,47 @@ class _DashboardState extends State<Dashboard> {
 
   }
 
+  Active() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var id = prefs.getString('id');
+    var token = prefs.getString('auth_token');
+    print("making connection...");
+    String urlComplete= 'https://expressapiapp.azurewebsites.net/api/camera/CountActive/'+id!;
+    var url = Uri.parse(urlComplete);
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token'
+      },
+    );
+    print(response.statusCode);
+    print(response.body);
+    setState(() {
+      activeCount = response.body;
+    });
+
+  }
+
+  Silent() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var id = prefs.getString('id');
+    var token = prefs.getString('auth_token');
+    print("making connection...");
+    String urlComplete= 'https://expressapiapp.azurewebsites.net/api/camera/CountSlient/'+id!;
+    var url = Uri.parse(urlComplete);
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token'
+      },
+    );
+    print(response.statusCode);
+    print(response.body);
+    setState(() {
+      silentCount = response.body;
+    });
+
+  }
  //var a = int.parse(totalCamera);
 
 
@@ -141,10 +187,12 @@ class _DashboardState extends State<Dashboard> {
             StaggeredTile.extent(2, 80.0),
             StaggeredTile.extent(1, 155.0),
             StaggeredTile.extent(1, 155.0),
+            StaggeredTile.extent(1, 155.0),
+            StaggeredTile.extent(1, 155.0),
+            StaggeredTile.extent(2, 50.0),
+            StaggeredTile.extent(2, 80.0),
             StaggeredTile.extent(2, 10.0),
-            StaggeredTile.extent(2, 60.0),
-            StaggeredTile.extent(2, 5.0),
-            StaggeredTile.extent(2, 60.0),
+            StaggeredTile.extent(2, 80.0),
           ],
           children: <Widget>[
                 getSearchBarUI(),
@@ -264,7 +312,7 @@ class _DashboardState extends State<Dashboard> {
                     [
                       Row
                         (
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children:  <Widget>
                         [
@@ -277,7 +325,7 @@ class _DashboardState extends State<Dashboard> {
                           Text(paired, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 37.0))
                         ],
                       ),
-                      const Padding(padding: EdgeInsets.only(bottom: 16.0)),
+                      const Padding(padding: EdgeInsets.only(bottom: 25.0)),
                       const Text('Paired Devices', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 18.0)),
                       /*Text('Images, Videos', style: TextStyle(color: Colors.black45)),*/
                     ]
@@ -286,7 +334,7 @@ class _DashboardState extends State<Dashboard> {
             ),
             _buildTile(
               Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(24.0),
                 child: Column
                   (
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -295,7 +343,7 @@ class _DashboardState extends State<Dashboard> {
                     [
                       Row
                         (
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children:  <Widget>
                         [
@@ -308,7 +356,7 @@ class _DashboardState extends State<Dashboard> {
                           Text(unpaired,  style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 37.0))
                         ],
                       ),
-                      const Padding(padding: EdgeInsets.only(bottom: 16.0)),
+                      const Padding(padding: EdgeInsets.only(bottom: 20.0)),
                       const Text('UnPaired Devices', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 18.0)),
                       /*Text('Images, Videos', style: TextStyle(color: Colors.black45)),*/
                     ]
@@ -583,13 +631,78 @@ class _DashboardState extends State<Dashboard> {
                   )
               ),
             ),*/
+            _buildTile(
+              Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column
+                  (
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>
+                    [
+                      Row
+                        (
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children:  <Widget>
+                        [
+                          const Material
+                            (
+                            child: Icon(Icons.ac_unit, color: Colors.blue, size: 45.0),
+                          ),
+                          /*const Text('Total Views', style: TextStyle(color: Colors.blueAccent)),*/
+                          const Padding(padding: EdgeInsets.only(right: 40.0)),
+                          Text(activeCount, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 37.0))
+                        ],
+                      ),
+                      const Padding(padding: EdgeInsets.only(bottom: 25.0)),
+                      const Text('Active Devices', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 18.0)),
+                      /*Text('Images, Videos', style: TextStyle(color: Colors.black45)),*/
+                    ]
+                ),
+              ),
+            ),
+            _buildTile(
+              Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column
+                  (
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>
+                    [
+                      Row
+                        (
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children:  <Widget>
+                        [
+                          const Material
+                            (
+                            child: Icon(Icons.unpublished, color: Colors.blue, size: 45.0),
+                          ),
+                          /*const Text('Total Views', style: TextStyle(color: Colors.blueAccent)),*/
+                          const Padding(padding: EdgeInsets.only(right: 40.0)),
+                          Text(silentCount,  style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 37.0))
+                        ],
+                      ),
+                      const Padding(padding: EdgeInsets.only(bottom: 20.0)),
+                      const Text('Silent Devices', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 18.0)),
+                      /*Text('Images, Videos', style: TextStyle(color: Colors.black45)),*/
+                    ]
+                ),
+              ),
+            ),
             const SizedBox(
-              height: 3.0,
+              height: 5.0,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 20.0),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
                   backgroundColor: Colors.blueAccent,
                   foregroundColor: Colors.white,
                   textStyle: const TextStyle(
@@ -612,6 +725,9 @@ class _DashboardState extends State<Dashboard> {
               padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 20.0),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
                   backgroundColor: Colors.blueAccent,
                   foregroundColor: Colors.white,
                   textStyle: const TextStyle(

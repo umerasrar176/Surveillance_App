@@ -46,9 +46,9 @@ class _LivepreviewState extends State<Livepreview> {
   final List<Map<String, String>> _list = [
     {
       'id': "2",
-      'name': "Elephant Dream",
+      'name': "IP Camera",
       'videoUrl':
-          "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+          "https://192.168.0.101:8080/video",
       'thumbnailUrl':
           "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ElephantsDream.jpg",
     },
@@ -86,7 +86,7 @@ class _LivepreviewState extends State<Livepreview> {
     },
     {
       'id': "7",
-      'name': "IP Camera",
+      'name': "Elephant Dream",
       'videoUrl':
       "rtsp://admin:Ecaict123@192.168.43.228:554/live/ch00_1",
       //"https://192.168.0.103:8080/video",
