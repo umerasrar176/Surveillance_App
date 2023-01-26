@@ -26,6 +26,8 @@ Overall, Eagle Eye Surveillance System is a powerful and reliable security solut
   <img src="https://user-images.githubusercontent.com/70839753/214825948-6935d3c2-3e63-44c9-96c4-3b2f1b66aee5.jpg" width="160" height="350">
   <img src="https://user-images.githubusercontent.com/70839753/214826131-7f04cba2-02b1-483d-8a7b-4c6830e79681.jpg" width="160" height="350">
   <img src="https://user-images.githubusercontent.com/70839753/214826225-29e1deb3-e837-44fe-a768-1a93bf2eb564.jpg" width="160" height="350">
+  <img src="https://user-images.githubusercontent.com/70839753/214827054-22e14ed9-d244-41cd-b9e2-a027e3f3ce83.jpg" width="160" height="350">
+  <img src="https://user-images.githubusercontent.com/70839753/214827632-3e52ee36-0c75-4bc7-b488-5a076eb06027.png" width="160" height="350">
 </p>
 
 ## Getting Started
