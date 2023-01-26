@@ -1,16 +1,41 @@
-# surveillance_app
+# surveillance App
 
-A new Flutter project.
+Surveillance App is a comprehensive security solution for homes and businesses. The app allows users to keep a watchful eye on their property with the help of IP cameras.
+
+Following are few main features of Surveillance App. 
+
+1. Number of total IP cameras added
+2. Number of paired and unpaired IP cameras
+3. Add new IP camera
+4. QR Scan to add new IP camera
+5. View list of all IP cameras in system
+6. View Live video Feed of cameras
+7. Get suspicious Activity alerts
+8. View profile
+9. Set Active and silent mode
+10. Manager login and sign Up
+
+
+Overall, Eagle Eye Surveillance System is a powerful and reliable security solution that provides users with the tools they need to keep an eye on their property, protect it from potential security breaches and stay informed about what's happening in and around their home or business.
+
+## ScreenShots
+<p float="left">
+  <img src="https://user-images.githubusercontent.com/70839753/214822454-783f7085-8ae8-41f1-a81d-82f72d16d297.png" width="160" height="350">
+  <img src="https://user-images.githubusercontent.com/70839753/214825724-8c926bbc-98e7-4473-bbbc-9079e2f1803a.jpg" width="160" height="350">
+  <img src="https://user-images.githubusercontent.com/70839753/214826660-1ea06285-4676-4d88-af4e-9b3a3e5df509.jpg" width="160" height="350">
+  <img src="https://user-images.githubusercontent.com/70839753/214825948-6935d3c2-3e63-44c9-96c4-3b2f1b66aee5.jpg" width="160" height="350">
+  <img src="https://user-images.githubusercontent.com/70839753/214826131-7f04cba2-02b1-483d-8a7b-4c6830e79681.jpg" width="160" height="350">
+  <img src="https://user-images.githubusercontent.com/70839753/214826225-29e1deb3-e837-44fe-a768-1a93bf2eb564.jpg" width="160" height="350">
+</p>
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+To run the project, 
 
-A few resources to get you started if this is your first Flutter project:
+1. Clone the project in your system. 
+2. Open project in Andriod studeio. 
+3. Run the project from the "RUN" button from visual studio interface. 
+OR 
+4. Run from terminal by following command
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+   flutter run --no-sound-null-safety
