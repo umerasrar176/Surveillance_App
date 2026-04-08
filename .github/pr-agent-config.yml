@@ -1,0 +1,27 @@
+model: gpt-4o-mini
+
+review:
+  enabled: true
+  focus:
+    - security
+    - performance
+    - best_practices
+    - bugs
+
+improve:
+  enabled: true
+  auto_suggest: true
+
+describe:
+  enabled: true
+
+chat:
+  enabled: true
+
+output:
+  verbosity: medium
+
+checks:
+  - security
+  - performance
+  - code_style
